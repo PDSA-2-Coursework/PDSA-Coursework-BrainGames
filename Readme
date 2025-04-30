@@ -1,0 +1,161 @@
+-- Contribution
+--------------------------------------------------------------------------------------------|
+Coventry Index	        NIBM Index	        NIBM Registered Name     Game developed
+--------------------------------------------------------------------------------------------|
+16114092	        COBSCCOMP242P-016	H.M.S.S Herath           Tic Tac toe
+16115859	        COBSCCOMP242P-019	M.S.F.Shazna             8 Queens
+16115893	        COBSCCOMP242P-021	M.A.W.U.Manchanayaka     Travelling salesman
+16115974	        COBSCCOMP242P-051	R.P.E.P. Pathirana       Tower of Hanoi
+16114379	        COBSCCOMP242P-055	H.M.S.U.Herath           Knights tour
+--------------------------------------------------------------------------------------------|
+
+
+## Database Query ##
+
+Change your username and password in the db.connector files and run the program
+
+Create this database and its tables inorder for the games to run smoothly
+
+
+CREATE DATABASE brain_games;
+USE brain_games;
+
+
+-- TSP 
+    1.    CREATE TABLE tsp_results (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                player_name VARCHAR(100) NOT NULL,
+                home_city VARCHAR(100) NOT NULL,
+                selected_cities TEXT NOT NULL,        
+                shortest_route TEXT NOT NULL,         
+                route_cost FLOAT NOT NULL,
+                brute_force_time FLOAT,              
+                greedy_time FLOAT,
+                dp_time FLOAT,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+            
+    2.    CREATE TABLE IF NOT EXISTS tsp_algorithm_times (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                player_name VARCHAR(100) NOT NULL,
+                round_number INT NOT NULL,
+                brute_force_time FLOAT,
+                greedy_time FLOAT,
+                dp_time FLOAT,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+-- Tic tac toe
+    1.    CREATE TABLE tic_tac_toe_players (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                player_name VARCHAR(50),
+                registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+
+    2.    CREATE TABLE tic_tac_toe_game_results (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                player_name VARCHAR(50),
+                player_type CHAR(1),
+                algorithm_used VARCHAR(50),
+                time_taken DOUBLE,
+                result VARCHAR(10),
+                played_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+
+    3.   ALTER TABLE tic_tac_toe_game_results MODIFY result VARCHAR(20);
+        
+
+    4.    CREATE TABLE tic_tac_toe_computer_moves (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                game_id INT,
+                move_number INT,
+                time_taken DOUBLE,
+                algorithm_used VARCHAR(50),
+                recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (game_id) REFERENCES tic_tac_toe_game_results(id)
+        );
+
+
+-- tower of hanoi
+
+1.    CREATE TABLE `hanoi_algo_time` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `algorithm` varchar(255) DEFAULT NULL,
+        `disks` int DEFAULT NULL,
+        `pegs` int DEFAULT NULL,
+        `time_taken_ms` double DEFAULT NULL,
+        `moves` text,
+        `move_count` int DEFAULT NULL,
+        `round` int DEFAULT NULL,
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+2.    CREATE TABLE `hanoi_game_results` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `player_name` varchar(255) NOT NULL,
+        `moves` text NOT NULL,
+        `move_count` int NOT NULL,
+        `disks` int NOT NULL,
+        `pegs` int NOT NULL,
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+-- 8 queens
+
+1.    CREATE TABLE `queen_players` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `name` varchar(100) NOT NULL,
+        `positions` varchar(255) NOT NULL,
+        `solution_id` int DEFAULT NULL,
+        `submitted_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+        `time_taken_s` float DEFAULT NULL,
+        PRIMARY KEY (`id`),
+        KEY `solution_id` (`solution_id`),
+        CONSTRAINT `players_ibfk_1` FOREIGN KEY (`solution_id`) REFERENCES `queen_solutions` (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+2.   CREATE TABLE `queen_sequential_solutions` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `positions` varchar(255) NOT NULL,
+        `time_taken_ms` double NOT NULL,
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+3.    CREATE TABLE `queen_threaded_solutions` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `positions` varchar(255) NOT NULL,
+        `time_taken_ms` double NOT NULL,
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+4.    CREATE TABLE `queen_solutions` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `positions` varchar(500) DEFAULT NULL,
+        `is_found` tinyint(1) DEFAULT '0',
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `positions` (`positions`),
+        UNIQUE KEY `positions_2` (`positions`),
+        UNIQUE KEY `positions_3` (`positions`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=829 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+5.    CREATE TABLE `queen_timings` (
+        `id` int NOT NULL AUTO_INCREMENT,
+        `algorithm_type` enum('sequential','threaded') NOT NULL,
+        `time_taken_ms` double NOT NULL,
+        `recorded_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+        -- knight's tour
+
+1.     CREATE TABLE knight_winners (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100) NOT NULL,
+            date_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+            move_count INT NOT NULL
+        );

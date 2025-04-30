@@ -15,7 +15,7 @@ def record_timing(algo_name, func):
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO timings (algorithm_type, time_taken_ms) VALUES (%s, %s)",
+            "INSERT INTO queen_timings (algorithm_type, time_taken_ms) VALUES (%s, %s)",
             (algo_name, time_taken)
         )
         conn.commit()

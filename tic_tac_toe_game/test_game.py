@@ -22,17 +22,17 @@ def test_get_available_moves():
 
 #Test for Horizontal winner
 def test_check_winner_horizontal():
-    board = [['X'] * 5] + [['-'] * 5 for _ in range(4)]
+    board = [['X'] * 5] + [[' '] * 5 for _ in range(4)]
     assert check_winner(board, 'X') is True
 
 #Test for Vertical winner
 def test_check_winner_vertical():
-    board = [['O'] + ['-'] * 4 for _ in range(5)]
+    board = [['O'] + [' '] * 4 for _ in range(5)]
     assert check_winner(board, 'O') is True
 
 #Test for Diagonal winner
 def test_check_winner_diagonal():
-    board = [['-' for _ in range(5)] for _ in range(5)]
+    board = [[' ' for _ in range(5)] for _ in range(5)]
     for i in range(5):
         board[i][i] = 'X'
     assert check_winner(board, 'X') is True

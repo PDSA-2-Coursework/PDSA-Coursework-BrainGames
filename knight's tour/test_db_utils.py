@@ -19,11 +19,11 @@ class TestSaveWinnerToDB(unittest.TestCase):
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="badagediya",
-            database="knights_tour_game"
+            password="admin123",
+            database="brain_games"
         )
         cursor = conn.cursor()
-        cursor.execute("SELECT name, move_count, path FROM winners WHERE name = %s ORDER BY id DESC LIMIT 1", (self.player_name,))
+        cursor.execute("SELECT name, move_count, path FROM knight_winners WHERE name = %s ORDER BY id DESC LIMIT 1", (self.player_name,))
         result = cursor.fetchone()
 
         self.assertIsNotNone(result)
@@ -40,11 +40,11 @@ class TestSaveWinnerToDB(unittest.TestCase):
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="badagediya",
-            database="knights_tour_game"
+            password="admin123",
+            database="brain_games"
         )
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM winners WHERE name = %s", (self.player_name,))
+        cursor.execute("DELETE FROM knight_winners WHERE name = %s", (self.player_name,))
         conn.commit()
         cursor.close()
         conn.close()

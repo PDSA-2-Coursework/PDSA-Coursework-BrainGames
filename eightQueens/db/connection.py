@@ -21,30 +21,30 @@ def get_connection(is_test=False):
 
             # Set up tables here for testing
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS solutions (
+                CREATE TABLE IF NOT EXISTS queen_solutions (
                 sol_id INT AUTO_INCREMENT PRIMARY KEY,
                 positions TEXT,
                 is_found BOOLEAN
             );
             """)
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS players (
+                CREATE TABLE IF NOT EXISTS queen_players (
                     player_id INT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(50) NOT NULL,
                     positions TEXT,
                     solution_id INT,
-                    FOREIGN KEY (solution_id) REFERENCES solutions(sol_id)
+                    FOREIGN KEY (solution_id) REFERENCES queen_solutions(sol_id)
                 );
             """)
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS sequential_solutions (
+                CREATE TABLE IF NOT EXISTS queen_sequential_solutions (
                     sol_id INT AUTO_INCREMENT PRIMARY KEY,
                     positions TEXT,
                     is_found BOOLEAN
                 );
             """)
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS threaded_solutions (
+                CREATE TABLE IF NOT EXISTS queen_threaded_solutions (
                     sol_id INT AUTO_INCREMENT PRIMARY KEY,
                     positions TEXT,
                     is_found BOOLEAN
@@ -57,7 +57,7 @@ def get_connection(is_test=False):
                 host="localhost",
                 user="root",
                 password="admin123",
-                database="eight_queens_game"
+                database="brain_games"
             )
         return connection
     

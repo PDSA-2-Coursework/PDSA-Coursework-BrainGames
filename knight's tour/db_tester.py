@@ -32,14 +32,14 @@ class TestDatabaseConnection(unittest.TestCase):
             conn = mysql.connector.connect(
                 host="localhost",
                 user="root",
-                password="badagediya",
-                database="knights_tour_game"
+                password="admin123",
+                database="brain_games"
             )
             cursor = conn.cursor()
             cursor.execute("SELECT DATABASE();")
             current_db = cursor.fetchone()[0]
 
-            self.assertEqual(current_db, "knights_tour_game", "Connected to the wrong database")
+            self.assertEqual(current_db, "brain_games", "Connected to the wrong database")
 
         except mysql.connector.Error as err:
             self.fail(f"MySQL connection failed with error: {err}")

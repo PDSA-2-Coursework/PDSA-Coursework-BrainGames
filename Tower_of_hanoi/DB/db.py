@@ -8,7 +8,7 @@ def connect_db():
             host='localhost',
             user='root',
             password='admin123',
-            database='hanoi_tower'
+            database='brain_games'
         )
         if connection.is_connected():
             return connection

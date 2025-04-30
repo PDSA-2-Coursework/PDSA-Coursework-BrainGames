@@ -14,7 +14,7 @@ def save_sequential_results():
         conn = get_connection()
         cursor = conn.cursor()
 
-        cursor.execute("TRUNCATE TABLE sequential_solutions")
+        cursor.execute("TRUNCATE TABLE queen_sequential_solutions")
         conn.commit()
 
         new_count = 0
@@ -22,14 +22,14 @@ def save_sequential_results():
             pos_str = str([(row, col) for row, col in enumerate(sol)])
 
             cursor.execute(
-                "INSERT INTO sequential_solutions (positions, time_taken_ms) VALUES (%s, %s)",
+                "INSERT INTO queen_sequential_solutions (positions, time_taken_ms) VALUES (%s, %s)",
                 (pos_str, total_duration_ms)
             )
             new_count += 1
 
         # Insert timing for this run
         cursor.execute(
-            "INSERT INTO timings (algorithm_type, time_taken_ms) VALUES (%s, %s)",
+            "INSERT INTO queen_timings (algorithm_type, time_taken_ms) VALUES (%s, %s)",
             ("sequential", total_duration_ms)
         )
 

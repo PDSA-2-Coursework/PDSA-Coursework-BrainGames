@@ -14,7 +14,7 @@ def save_threaded_results():
         conn = get_connection()
         cursor = conn.cursor()
 
-        cursor.execute("TRUNCATE TABLE threaded_solutions")
+        cursor.execute("TRUNCATE TABLE queen_threaded_solutions")
         conn.commit()
 
         new_count = 0
@@ -22,14 +22,14 @@ def save_threaded_results():
             pos_str = str([(row, col) for row, col in enumerate(sol)])
 
             cursor.execute(
-                "INSERT INTO threaded_solutions (positions, time_taken_ms) VALUES (%s, %s)",
+                "INSERT INTO queen_threaded_solutions (positions, time_taken_ms) VALUES (%s, %s)",
                 (pos_str, total_duration_ms)  # Store total time for the threaded process
             )
             new_count += 1
 
         # Insert overall timing for the threaded algorithm into the 'timings' table
         cursor.execute(
-            "INSERT INTO timings (algorithm_type, time_taken_ms) VALUES (%s, %s)",
+            "INSERT INTO queen_timings (algorithm_type, time_taken_ms) VALUES (%s, %s)",
             ("threaded", total_duration_ms)
         )
 

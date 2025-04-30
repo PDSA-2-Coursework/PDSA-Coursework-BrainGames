@@ -6,10 +6,10 @@ def insert_common_solutions():
         conn = get_connection()
         cursor = conn.cursor()
 
-        cursor.execute("SELECT positions FROM sequential_solutions")
+        cursor.execute("SELECT positions FROM queen_sequential_solutions")
         sequential = set(row[0].strip() for row in cursor.fetchall())
 
-        cursor.execute("SELECT positions FROM threaded_solutions")
+        cursor.execute("SELECT positions FROM queen_threaded_solutions")
         threaded = set(row[0].strip() for row in cursor.fetchall())
 
         common = sorted(sequential & threaded)
@@ -21,7 +21,7 @@ def insert_common_solutions():
 
         for idx, pos_str in enumerate(common, start=1):
             cursor.execute(
-                "INSERT IGNORE INTO solutions (positions, is_found) VALUES (%s, %s)",
+                "INSERT IGNORE INTO queen_solutions (positions, is_found) VALUES (%s, %s)",
                 (pos_str, 0)
             )
             if cursor.rowcount > 0:

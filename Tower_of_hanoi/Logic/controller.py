@@ -9,7 +9,7 @@ def get_current_round():
     if connection:
         try:
             cursor = connection.cursor()
-            cursor.execute("SELECT MAX(round) FROM algo_time")
+            cursor.execute("SELECT MAX(round) FROM hanoi_algo_time")
             result = cursor.fetchone()
             current_round = result[0] if result[0] is not None else 0
             return current_round + 1
@@ -36,7 +36,7 @@ def save_time(algorithm, disks, pegs, time_taken, moves, move_count,round_number
         try:
             cursor = connection.cursor()
             cursor.execute("""
-                INSERT INTO algo_time (round, algorithm, disks, pegs, time_taken_ms, moves, move_count) 
+                INSERT INTO hanoi_algo_time (round, algorithm, disks, pegs, time_taken_ms, moves, move_count) 
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (round_number, algorithm, disks, pegs, time_taken, str(moves), move_count))
             connection.commit()
@@ -56,7 +56,7 @@ def save_correct_answer(player_name, moves, move_count, disks, pegs):
         try:
             cursor = connection.cursor()
             cursor.execute("""
-                INSERT INTO game_results (player_name, moves, move_count, disks, pegs) 
+                INSERT INTO hanoi_game_results (player_name, moves, move_count, disks, pegs) 
                 VALUES (%s, %s, %s, %s, %s)
             """, (player_name, str(moves), move_count, disks, pegs))
             connection.commit()

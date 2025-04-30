@@ -152,9 +152,9 @@ class TestEightQueensGame(unittest.TestCase):
         solutions = solve_n_queens_threaded()  
         for solution in solutions:
             positions = ','.join(map(str, solution))
-            self.cursor.execute("INSERT INTO threaded_solutions (positions, is_found) VALUES (%s, %s)", (positions, True))       
+            self.cursor.execute("INSERT INTO queen_threaded_solutions (positions, is_found) VALUES (%s, %s)", (positions, True))       
         self.conn.commit()    
-        self.cursor.execute("SELECT COUNT(*) FROM threaded_solutions")
+        self.cursor.execute("SELECT COUNT(*) FROM queen_threaded_solutions")
         count = self.cursor.fetchone()[0]  
         try:
             self.assertEqual(count, 92, f"Expected 92 threaded solutions, found {count}.")
@@ -167,9 +167,9 @@ class TestEightQueensGame(unittest.TestCase):
         solutions = solve_n_queens_sequential()
         for solution in solutions:
             positions = ','.join(map(str, solution))
-            self.cursor.execute("INSERT INTO sequential_solutions (positions, is_found) VALUES (%s, %s)", (positions, True))       
+            self.cursor.execute("INSERT INTO queen_sequential_solutions (positions, is_found) VALUES (%s, %s)", (positions, True))       
         self.conn.commit()  
-        self.cursor.execute("SELECT COUNT(*) FROM sequential_solutions")
+        self.cursor.execute("SELECT COUNT(*) FROM queen_sequential_solutions")
         count = self.cursor.fetchone()[0]  
         try:
             self.assertEqual(count, 92, f"Expected 92 threaded solutions, found {count}.")
@@ -181,22 +181,22 @@ class TestEightQueensGame(unittest.TestCase):
         try:
             print("\n🔹 Unit_Test_14: save_correct_player_solution")
             correct_positions = "0,4,7,5,2,6,1,3"                
-            self.cursor.execute("INSERT INTO solutions (positions, is_found) VALUES (%s, %s)", (correct_positions, 1))
+            self.cursor.execute("INSERT INTO queen_solutions (positions, is_found) VALUES (%s, %s)", (correct_positions, 1))
             self.conn.commit()  # Commit after inserting the solution
             player_name = "Alice"
             submitted_positions = "0,4,7,5,2,6,1,3"                
-            self.cursor.execute("SELECT sol_id FROM solutions WHERE positions = %s AND is_found = 1", (submitted_positions,))
+            self.cursor.execute("SELECT sol_id FROM queen_solutions WHERE positions = %s AND is_found = 1", (submitted_positions,))
             match = self.cursor.fetchone() 
             if match:
                 matched_solution_id = match[0]
                 time_taken = 0                     
                 self.cursor.execute("""
-                    INSERT INTO players (name, positions, solution_id) 
+                    INSERT INTO queen_players (name, positions, solution_id) 
                     VALUES (%s, %s, %s)
                 """, (player_name, submitted_positions, matched_solution_id))
                 self.conn.commit() 
                 print(f"Solution {submitted_positions} is Correct! Recorded for player: {player_name}    ✅Passed")                    
-                self.cursor.execute("SELECT name, positions, solution_id FROM players WHERE name=%s", (player_name,))
+                self.cursor.execute("SELECT name, positions, solution_id FROM queen_players WHERE name=%s", (player_name,))
                 row = self.cursor.fetchone()                    
                 print(f"Fetched row: {row}")
                 self.assertIsNotNone(row, "Expected a row to be returned, but got None.")
@@ -215,7 +215,7 @@ class TestEightQueensGame(unittest.TestCase):
             print("\n🔹 Unit_Test_15: invalid_solution_should_not_be_recorded")
             submitted_positions = "3,0,4,7,1,6,2,5"
             player_name = "Bob"
-            self.cursor.execute("SELECT sol_id FROM solutions WHERE positions = %s AND is_found = 1", (submitted_positions,))
+            self.cursor.execute("SELECT sol_id FROM queen_solutions WHERE positions = %s AND is_found = 1", (submitted_positions,))
             match = self.cursor.fetchone()
             self.assertIsNone(match)
             print(f"Submitted solution {submitted_positions} is Incorrect. Not recorded for {player_name}.    ✅Passed")

@@ -37,8 +37,16 @@ class TSPGameUI:
         tk.Label(self.frame, text="Enter your name:", font=("Helvetica", 14),bg=self.frame["bg"]).pack(pady=10)
         name_entry = tk.Entry(self.frame, font=("Helvetica", 14),  bd=2, relief="groove", highlightthickness=1, highlightbackground="#ccc" )
         name_entry.pack(pady=10, ipady=1, ipadx=1)
+
+        def on_ok_clicked():
+            name = name_entry.get().strip()
+            if not name:
+                messagebox.showerror("Input Error", "Name cannot be empty.")
+            else:
+                self.app.set_player(name)
+
         tk.Button(self.frame, text="OK", font=("Helvetica", 12), activebackground="#C3B3E4", padx=50,pady=1,  bg="#6A5ACD",
-                         command=lambda: self.app.set_player(name_entry.get())).pack(pady=10)  
+                         command=on_ok_clicked).pack(pady=10)  
                        
                         
                           

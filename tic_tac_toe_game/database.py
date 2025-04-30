@@ -7,8 +7,8 @@ def connect():
         return mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Sandu@20020409",
-            database="tictactoe_game"
+            password="admin123",
+            database="brain_games"
         )
     except Error as e:
         print(f"Database connection failed: {e}")
@@ -21,14 +21,14 @@ def initialize_database():
         cursor = conn.cursor()
         try:
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS players (
+                CREATE TABLE IF NOT EXISTS tic_tac_toe_players (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     player_name VARCHAR(50),
                     registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS game_results (
+                CREATE TABLE IF NOT EXISTS tic_tac_toe_game_results (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     player_name VARCHAR(50),
                     player_type CHAR(1),
@@ -39,7 +39,7 @@ def initialize_database():
                 )
             """)
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS computer_moves (
+                CREATE TABLE IF NOT EXISTS tic_tac_toe_computer_moves (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     game_id INT,
                     move_number INT,
@@ -63,7 +63,7 @@ def save_game_result(player_name, player_type, algorithm_used, move_time, result
         if conn:
             cursor = conn.cursor()
             cursor.execute("""
-                INSERT INTO game_results (player_name, player_type, algorithm_used, time_taken, result)
+                INSERT INTO tic_tac_toe_game_results (player_name, player_type, algorithm_used, time_taken, result)
                 VALUES (%s, %s, %s, %s, %s)
             """, (player_name, player_type, algorithm_used, move_time, result))
             conn.commit()
@@ -80,7 +80,7 @@ def save_player_name(player_name):
         conn = connect()
         if conn:
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO players (player_name) VALUES (%s)", (player_name,))
+            cursor.execute("INSERT INTO tic_tac_toe_players (player_name) VALUES (%s)", (player_name,))
             conn.commit()
             cursor.close()
             conn.close()
@@ -94,7 +94,7 @@ def save_computer_move(game_id, move_number, time_taken, algorithm_used):
         if conn:
             cursor = conn.cursor()
             cursor.execute("""
-                INSERT INTO computer_moves (game_id, move_number, time_taken, algorithm_used)
+                INSERT INTO tic_tac_toe_computer_moves (game_id, move_number, time_taken, algorithm_used)
                 VALUES (%s, %s, %s, %s)
             """, (game_id, move_number, time_taken, algorithm_used))
             conn.commit()
@@ -110,7 +110,7 @@ def update_game_result(game_id, winner, time_taken, result):
         if conn:
             cursor = conn.cursor()
             cursor.execute("""
-                UPDATE game_results
+                UPDATE tic_tac_toe_game_results
                 SET player_type = %s, time_taken = %s, result = %s
                 WHERE id = %s
             """, (winner, time_taken, result, game_id))

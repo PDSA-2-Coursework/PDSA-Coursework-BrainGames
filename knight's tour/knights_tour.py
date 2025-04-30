@@ -3,7 +3,7 @@ import pygame
 import sys
 import ctypes
 import mysql.connector
-from tkinter import simpledialog
+from tkinter import simpledialog, messagebox
 import tkinter as tk
 from db_utils import save_winner_to_db
 
@@ -203,7 +203,6 @@ def backtracking_knights_tour(board, x, y, move_num):
 
 
 
-
 def solve_knights_tour_no_ui(board, x, y, move_num):
     try:
         if move_num == ROWS * COLS:
@@ -232,7 +231,6 @@ def solve_knights_tour_no_ui(board, x, y, move_num):
 
 
 
-
 # def save_winner_to_db(name, move_count):
 #     if not name or not isinstance(name, str) or move_count <= 0:
 #         print("Invalid data for database save.")
@@ -254,7 +252,6 @@ def solve_knights_tour_no_ui(board, x, y, move_num):
 #         if conn.is_connected():
 #             cursor.close()
 #             conn.close()
-
 
 
 
@@ -388,21 +385,29 @@ def main():
                                 game_over = True
                         else:
                             display_message(win, "Invalid move!", RED)
-
         if knight_pos and len(visited) == ROWS * COLS and not game_over:
             display_message(win, "You won!", GREEN)
             try:
                 root = tk.Tk()
                 root.withdraw()
-                player_name = simpledialog.askstring("Victory!", "Enter your name:")
+
+                player_name = None
+
+                while True:
+                    player_name = simpledialog.askstring("Victory!", "Enter your name:")
+                    if player_name is None:
+                        messagebox.showwarning("Cancelled", "Player cancelled input.")
+                        break  # exit if Cancel is clicked
+                    elif not player_name.strip():
+                        messagebox.showwarning("Invalid Input", "Name cannot be empty.")
+                    elif not player_name.strip().isalpha():
+                        messagebox.showwarning("Invalid Input", "Name must contain only letters.")
+                    else:
+                        # Valid name
+                        player_name = player_name.strip()
+                        save_winner_to_db(player_name, len(visited), visited)  # Save name, move count, and path
+                        break
                 root.destroy()
-
-                if player_name:
-                    # save_winner_to_db(player_name, len(visited))
-                    save_winner_to_db(player_name, len(visited), visited)  # <-- include the path here
-
-                # save_winner_to_db(player_name, len(visited))
-
             except Exception as e:
                 print(f"Error collecting player name: {e}")
             game_over = True

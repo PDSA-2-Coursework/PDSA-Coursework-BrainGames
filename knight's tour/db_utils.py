@@ -58,12 +58,12 @@ def save_winner_to_db(name, move_count, path):
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="badagediya",
-            database="knights_tour_game"
+            password="admin123",
+            database="brain_games"
         )
         cursor = conn.cursor()
 
-        query = "INSERT INTO winners (name, move_count, path) VALUES (%s, %s, %s)"
+        query = "INSERT INTO knight_winners (name, move_count, path) VALUES (%s, %s, %s)"
         cursor.execute(query, (name, move_count, json.dumps(path)))  # <-- convert path to JSON string
 
         conn.commit()

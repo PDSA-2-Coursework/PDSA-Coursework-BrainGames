@@ -19,14 +19,14 @@ class TestDatabaseReal(unittest.TestCase):
         initialize_database()
 
         #Before test, clean the data from the tables
-        self.cursor.execute("DELETE FROM players WHERE player_name = %s", (self.test_player,))
-        self.cursor.execute("DELETE FROM game_results WHERE player_name = %s", (self.test_player,))
+        self.cursor.execute("DELETE FROM tic_tac_toe_players WHERE player_name = %s", (self.test_player,))
+        self.cursor.execute("DELETE FROM tic_tac_toe_game_results WHERE player_name = %s", (self.test_player,))
         self.conn.commit()
 
     #Test the player name save correctly in the database
     def test_save_player_name(self):
         save_player_name(self.test_player)
-        self.cursor.execute("SELECT * FROM players WHERE player_name = %s", (self.test_player,))
+        self.cursor.execute("SELECT * FROM tic_tac_toe_players WHERE player_name = %s", (self.test_player,))
         result = self.cursor.fetchone()
         self.assertIsNotNone(result)
         self.assertEqual(result[1], self.test_player)
@@ -34,7 +34,7 @@ class TestDatabaseReal(unittest.TestCase):
     #Test the game results save correctly in the database
     def test_save_game_result(self):
         save_game_result(**self.test_result_data)
-        self.cursor.execute("SELECT * FROM game_results WHERE player_name = %s", (self.test_player,))
+        self.cursor.execute("SELECT * FROM tic_tac_toe_game_results WHERE player_name = %s", (self.test_player,))
         result = self.cursor.fetchone()
         self.assertIsNotNone(result)
         self.assertEqual(result[1], self.test_player)
@@ -45,8 +45,8 @@ class TestDatabaseReal(unittest.TestCase):
 
     #After test, clean the data from the tables
     def tearDown(self):
-        self.cursor.execute("DELETE FROM players WHERE player_name = %s", (self.test_player,))
-        self.cursor.execute("DELETE FROM game_results WHERE player_name = %s", (self.test_player,))
+        self.cursor.execute("DELETE FROM tic_tac_toe_players WHERE player_name = %s", (self.test_player,))
+        self.cursor.execute("DELETE FROM tic_tac_toe_game_results WHERE player_name = %s", (self.test_player,))
         self.conn.commit()
         self.cursor.close()
         self.conn.close()
