@@ -29,7 +29,6 @@ class TestSaveWinnerToDB(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertEqual(result[0], self.player_name)
         self.assertEqual(result[1], self.move_count)
-        # self.assertEqual(json.loads(result[2]), self.path)  # check if path was correctly stored as JSON
         self.assertEqual(json.loads(result[2]), [list(pos) for pos in self.path])
 
         cursor.close()
@@ -51,4 +50,9 @@ class TestSaveWinnerToDB(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    # Run the tests and capture the result
+    result = unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(TestSaveWinnerToDB))
+
+    # Check if all tests passed
+    if result.wasSuccessful():
+        print("✅ All tests passed successfully!")

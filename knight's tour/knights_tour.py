@@ -6,6 +6,7 @@ import mysql.connector
 from tkinter import simpledialog, messagebox
 import tkinter as tk
 from db_utils import save_winner_to_db
+import random
 
 
 # Constants
@@ -260,6 +261,10 @@ def main():
     knight_pos = None
     running = True
     game_over = False
+
+    # Randomly place the knight on the board
+    knight_pos = (random.randint(0, COLS - 1), random.randint(0, ROWS - 1))
+    visited.append(knight_pos)
     
     
     # Ask for player's name at the beginning (compulsory)
@@ -358,7 +363,7 @@ def main():
                 
 
                 if RESET_BUTTON_X <= mx <= RESET_BUTTON_X + BUTTON_WIDTH and BUTTON_Y <= my <= BUTTON_Y + BUTTON_HEIGHT:
-                    knight_pos = None
+                    knight_pos = (random.randint(0, COLS - 1), random.randint(0, ROWS - 1))  # Randomly place the knight again
                     visited = []
                     game_over = False
                     continue
