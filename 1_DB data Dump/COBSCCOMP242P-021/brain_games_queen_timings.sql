@@ -1,0 +1,53 @@
+-- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
+--
+-- Host: localhost    Database: brain_games
+-- ------------------------------------------------------
+-- Server version	8.0.41
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `queen_timings`
+--
+
+DROP TABLE IF EXISTS `queen_timings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `queen_timings` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `algorithm_type` enum('sequential','threaded') NOT NULL,
+  `time_taken_ms` double NOT NULL,
+  `recorded_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `queen_timings`
+--
+
+LOCK TABLES `queen_timings` WRITE;
+/*!40000 ALTER TABLE `queen_timings` DISABLE KEYS */;
+INSERT INTO `queen_timings` VALUES (19,'sequential',4.119634628295898,'2025-04-30 13:48:31'),(20,'threaded',5.424261093139648,'2025-04-30 13:48:32'),(21,'sequential',3.5142898559570312,'2025-04-30 13:48:42'),(22,'threaded',6.450891494750977,'2025-04-30 13:48:46'),(23,'sequential',3.7441253662109375,'2025-04-30 14:32:49'),(24,'threaded',5.467414855957031,'2025-04-30 14:32:49'),(25,'threaded',7.509946823120117,'2025-04-30 14:47:06'),(26,'sequential',3.5097599029541016,'2025-04-30 14:47:09'),(27,'threaded',5.259037017822266,'2025-04-30 14:47:12'),(28,'sequential',3.578662872314453,'2025-04-30 14:47:17');
+/*!40000 ALTER TABLE `queen_timings` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-04-30 20:50:06
